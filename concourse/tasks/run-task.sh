@@ -16,20 +16,17 @@ set -eux
 root_dir=$(pwd)
 
 # Raise error if env vars not set
-#: "${ASSUME_ROLE_ARN:?ASSUME_ROLE_ARN not set}"
-#: "${AWS_REGION:?AWS_REGION not set}"
-#: "${APPLICATION:?APPLICATION not set}"
-#: "${COMMAND:?COMMAND not set}"
-#: "${CLUSTER:?COMMAND not set}"
-#: "${VARIANT:?VARIANT not set}"
+: "${ASSUME_ROLE_ARN:?ASSUME_ROLE_ARN not set}"
+: "${AWS_REGION:?AWS_REGION not set}"
+: "${APPLICATION:?APPLICATION not set}"
+: "${COMMAND:?COMMAND not set}"
+: "${CLUSTER:?COMMAND not set}"
+: "${VARIANT:?VARIANT not set}"
 : "${SKIP_DB_MIGRATIONS:?SKIP_DB_MIGRATIONS not set}"
 
 if [[ "$SKIP_DB_MIGRATIONS" == "true" ]]; then
   exit 0
 fi
-
-echo "exiting"
-exit 230
 
 mkdir -p ~/.aws
 
