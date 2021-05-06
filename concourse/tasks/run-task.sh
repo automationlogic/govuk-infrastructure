@@ -11,7 +11,7 @@
 # Finally, as a *third* input, the environment variables provide a) extra
 # configuration for the task and b) configuration for the network config.
 
-set -eux
+set -eu
 
 root_dir=$(pwd)
 
@@ -25,6 +25,7 @@ root_dir=$(pwd)
 : "${SKIP_DB_MIGRATIONS:?SKIP_DB_MIGRATIONS not set}"
 
 if [[ "$SKIP_DB_MIGRATIONS" == "true" ]]; then
+  echo "Skipping DB Migrations"
   exit 0
 fi
 
