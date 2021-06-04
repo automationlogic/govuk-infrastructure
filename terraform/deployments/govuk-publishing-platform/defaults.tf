@@ -12,9 +12,11 @@ locals {
       GOVUK_APP_DOMAIN          = local.mesh_domain,
       GOVUK_APP_DOMAIN_EXTERNAL = local.workspace_external_domain,
       GOVUK_APP_TYPE            = "rack",
+      GOVUK_ENVIRONMENT         = var.govuk_environment
       GOVUK_STATSD_HOST         = "statsd.${local.mesh_domain}"
       GOVUK_STATSD_PROTOCOL     = "tcp"
       GOVUK_WEBSITE_ROOT        = local.public_entry_url
+      GOVUK_WORKSPACE           = local.workspace
       PORT                      = 80,
       RAILS_ENV                 = "production",
       SENTRY_ENVIRONMENT        = "${var.govuk_environment}-ecsplatform-${local.workspace}",
