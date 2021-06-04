@@ -17,8 +17,8 @@ output "json_format" {
     logConfiguration = {
       logDriver = "splunk",
       options = {
-        env               = "GOVUK_APP_NAME",
-        tag               = "image_name={{.ImageName}} container_name={{.Name}} container_id={{.FullID}}",
+        env               = "GOVUK_APP_NAME,GOVUK_ENVIRONMENT,GOVUK_WORKSPACE"
+        tag               = "image_name={{.ImageName}} container_name={{.Name}} container_id={{.FullID}} container_image_id={{.ImageFullID}}",
         splunk-sourcetype = var.splunk_sourcetype,
         splunk-index      = var.splunk_index,
         splunk-format     = "raw"
