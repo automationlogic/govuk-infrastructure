@@ -46,6 +46,6 @@ locals {
     splunk_url_secret_arn   = data.aws_secretsmanager_secret.splunk_url.arn
     splunk_token_secret_arn = data.aws_secretsmanager_secret.splunk_token.arn
     splunk_index            = "govuk_replatforming"
-    splunk_sourcetype       = "log"
+    splunk_sourcetype       = "syslog"
   }
 }
