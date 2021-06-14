@@ -155,6 +155,11 @@ resource "aws_iam_role_policy_attachment" "appmesh_envoy_access" {
   policy_arn = "arn:aws:iam::aws:policy/AWSAppMeshEnvoyAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "s3_read_access" {
+  role       = aws_iam_role.task.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_exec_access" {
   role       = aws_iam_role.task.id
   policy_arn = aws_iam_policy.ecs_exec_access.arn

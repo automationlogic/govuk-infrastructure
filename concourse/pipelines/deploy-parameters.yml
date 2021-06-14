@@ -1,0 +1,5 @@
+govuk_infrastructure_branch: content-schemas
+concourse_deployer_role_arn: arn:aws:iam::430354129336:role/govuk-concourse-deployer
+workspace: steve
+disable_slack_channel_alerts: true
+skip_db_migrations: true
