@@ -358,6 +358,7 @@ groups:
       - deploy-content-store
       - deploy-frontend
       - destroy-infrastructure
+      - destroy-infrastructure-manual
       - deploy-publisher
       - deploy-publishing-api
       - deploy-router
@@ -429,6 +430,50 @@ jobs:
     plan:
     - get: everyday-at-11pm
       trigger: true
+    - get: govuk-infrastructure
+      trigger: false
+    - task: destroy-terraform
+      attempts: 3
+      config:
+        inputs:
+        - name: govuk-infrastructure
+        params:
+          ASSUME_ROLE_ARN: ((concourse_deployer_role_arn))
+          AWS_REGION: eu-west-1
+          WORKSPACE: ((workspace))
+          GOVUK_ENVIRONMENT: ((govuk_environment))
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: hashicorp/terraform
+            tag: 1.0.0
+            username: ((docker_hub_username))
+            password: ((docker_hub_authtoken))
+        run:
+          path: sh
+          args:
+            - '-c'
+            - |
+              set -eu
+
+              root_dir=$(pwd)
+
+              cd govuk-infrastructure/terraform/deployments/govuk-publishing-platform
+
+              terraform init -backend-config "./${GOVUK_ENVIRONMENT}.backend" -backend-config "role_arn=$ASSUME_ROLE_ARN"
+
+              terraform workspace select "$WORKSPACE"
+
+              terraform destroy  \
+              -var "assume_role_arn=$ASSUME_ROLE_ARN" \
+              -var-file ../variables/common.tfvars \
+              -var-file "../variables/${GOVUK_ENVIRONMENT}/common.tfvars" \
+              -var-file "../variables/${GOVUK_ENVIRONMENT}/infrastructure.tfvars" \
+              -auto-approve
+
+  - name: destroy-infrastructure-manual
+    plan:
     - get: govuk-infrastructure
       trigger: false
     - task: destroy-terraform
