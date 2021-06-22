@@ -1,5 +1,5 @@
 resource "aws_lb" "origin" {
-  name               = "${var.name}-origin-${var.workspace}"
+  name               = "${var.name}-origin"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.origin_alb.id]

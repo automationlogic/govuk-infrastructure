@@ -33,7 +33,7 @@ module "statsd" {
   secrets_from_arns                = local.statsd_defaults.secrets_from_arns
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id
   service_discovery_namespace_name = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.name
-  service_name                     = "statsd"
+  service_name                     = "statsd-${var.govuk_environment}-${local.workspace}"
   source                           = "../../modules/app"
   subnets                          = local.private_subnets
   task_role_arn                    = aws_iam_role.task.arn

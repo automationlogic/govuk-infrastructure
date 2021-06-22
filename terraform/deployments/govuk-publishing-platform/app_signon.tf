@@ -33,7 +33,7 @@ locals {
 module "signon" {
   registry                         = var.registry
   image_name                       = "signon"
-  service_name                     = "signon"
+  service_name                     = "signon-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.signon_defaults.backend_services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id

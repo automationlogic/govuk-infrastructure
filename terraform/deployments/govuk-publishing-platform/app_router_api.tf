@@ -33,7 +33,7 @@ module "router_api" {
   source                           = "../../modules/app"
   registry                         = var.registry
   image_name                       = "router-api"
-  service_name                     = "router-api"
+  service_name                     = "router-api-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.router_api_defaults.backend_services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id
@@ -76,7 +76,7 @@ module "draft_router_api" {
 
   registry                         = var.registry
   image_name                       = "router-api"
-  service_name                     = "draft-router-api"
+  service_name                     = "draft-router-api-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.router_api_defaults.backend_services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id

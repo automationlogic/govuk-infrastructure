@@ -34,7 +34,7 @@ locals {
 module "authenticating_proxy" {
   registry                         = var.registry
   image_name                       = "authenticating-proxy"
-  service_name                     = "authenticating-proxy"
+  service_name                     = "authenticating-proxy-${var.govuk_environment}-${local.workspace}"
   mesh_name                        = aws_appmesh_mesh.govuk.id
   backend_virtual_service_names    = local.authenticating_proxy_defaults.backend_services
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id

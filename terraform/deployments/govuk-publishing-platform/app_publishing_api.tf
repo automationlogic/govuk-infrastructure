@@ -55,7 +55,7 @@ locals {
 module "publishing_api_web" {
   registry                         = var.registry
   image_name                       = "publishing-api"
-  service_name                     = "publishing-api-web"
+  service_name                     = "publishing-api-web-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.publishing_api_defaults.backend_services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id
@@ -86,7 +86,7 @@ module "publishing_api_web" {
 module "publishing_api_worker" {
   registry                         = var.registry
   image_name                       = "publishing-api"
-  service_name                     = "publishing-api-worker"
+  service_name                     = "publishing-api-worker-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.publishing_api_defaults.backend_services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id

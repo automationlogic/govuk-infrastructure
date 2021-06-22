@@ -43,7 +43,7 @@ locals {
 module "frontend" {
   registry     = var.registry
   image_name   = "frontend"
-  service_name = "frontend"
+  service_name = "frontend-${var.govuk_environment}-${local.workspace}"
   mesh_name    = aws_appmesh_mesh.govuk.id
   backend_virtual_service_names = flatten([
     local.frontend_defaults.backend_services,
@@ -81,7 +81,7 @@ module "frontend" {
 module "draft_frontend" {
   registry     = var.registry
   image_name   = "frontend"
-  service_name = "draft-frontend"
+  service_name = "draft-frontend-${var.govuk_environment}-${local.workspace}"
   mesh_name    = aws_appmesh_mesh.govuk.id
   backend_virtual_service_names = flatten([
     local.frontend_defaults.backend_services,
