@@ -1,7 +1,7 @@
 # Security groups for the GOV.UK Publishing microservices are defined here.
 
 resource "aws_security_group" "mesh_ecs_service" {
-  name        = "mesh_ecs_service-${terraform.workspace}"
+  name        = "mesh_ecs_service-${var.govuk_environment}-${local.workspace}"
   vpc_id      = local.vpc_id
   description = "Associated with all ECS Services that are virtual services in the AppMesh mesh"
 
@@ -14,7 +14,7 @@ resource "aws_security_group" "mesh_ecs_service" {
 }
 
 resource "aws_security_group" "smokey" {
-  name        = "ecs_fargate_smokey-${terraform.workspace}"
+  name        = "ecs_fargate_smokey-${var.govuk_environment}-${local.workspace}"
   vpc_id      = local.vpc_id
   description = "Smoke test runner"
 
@@ -27,7 +27,7 @@ resource "aws_security_group" "smokey" {
 }
 
 resource "aws_security_group" "signon_lambda" {
-  name        = "signon-lambda-${terraform.workspace}"
+  name        = "signon-lambda-${var.govuk_environment}-${local.workspace}"
   vpc_id      = local.vpc_id
   description = "Signon Lambda"
 }

@@ -49,7 +49,7 @@ resource "aws_wafv2_web_acl" "all_frontends_origins_cloudfront_web_acl" {
 module "www_frontends_origin" {
   source = "../../modules/origin"
 
-  name                                 = "www-frontends"
+  name                                 = "www-frontends-${var.govuk_environment}-${local.workspace}"
   vpc_id                               = local.vpc_id
   aws_region                           = data.aws_region.current.name
   assume_role_arn                      = var.assume_role_arn
@@ -74,7 +74,7 @@ module "www_frontends_origin" {
 }
 
 resource "aws_lb_target_group" "router" {
-  name        = "router-${local.workspace}"
+  name        = "router-${var.govuk_environment}-${local.workspace}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
@@ -112,7 +112,7 @@ resource "aws_lb_listener_rule" "router" {
 module "draft_frontends_origin" {
   source = "../../modules/origin"
 
-  name                                 = "draft-frontends"
+  name                                 = "draft-frontends-${var.govuk_environment}-${local.workspace}"
   vpc_id                               = local.vpc_id
   aws_region                           = data.aws_region.current.name
   assume_role_arn                      = var.assume_role_arn
@@ -136,7 +136,7 @@ module "draft_frontends_origin" {
 }
 
 resource "aws_lb_target_group" "authenticating_proxy" {
-  name        = "authenticating-proxy-${local.workspace}"
+  name        = "authenticating-proxy-${var.govuk_environment}-${local.workspace}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
@@ -149,7 +149,7 @@ resource "aws_lb_target_group" "authenticating_proxy" {
   tags = merge(
     local.additional_tags,
     {
-      Name = "draft-router-${var.govuk_environment}-${local.workspace}"
+      Name = "authenticating-proxy-${var.govuk_environment}-${local.workspace}"
     },
   )
 }

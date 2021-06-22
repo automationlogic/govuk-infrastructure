@@ -66,7 +66,7 @@ locals {
 module "publisher_web" {
   registry                         = var.registry
   image_name                       = "publisher"
-  service_name                     = "publisher-web"
+  service_name                     = "publisher-web-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = local.publishing_api_defaults.backend_services
   cluster_id                       = aws_ecs_cluster.cluster.id
   mesh_name                        = aws_appmesh_mesh.govuk.id
@@ -106,7 +106,7 @@ module "publisher_web" {
 module "publisher_worker" {
   registry                      = var.registry
   image_name                    = "publisher"
-  service_name                  = "publisher-worker"
+  service_name                  = "publisher-worker-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names = local.publishing_api_defaults.backend_services
   command                       = ["foreman", "run", "worker"]
   cluster_id                    = aws_ecs_cluster.cluster.id

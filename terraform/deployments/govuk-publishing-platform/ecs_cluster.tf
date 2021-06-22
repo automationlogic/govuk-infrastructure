@@ -1,6 +1,6 @@
 # All services running on GOV.UK run in this single cluster.
 resource "aws_ecs_cluster" "cluster" {
-  name               = "govuk-${local.workspace}"
+  name               = "govuk-${var.govuk_environment}-${local.workspace}"
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
 
   default_capacity_provider_strategy {
@@ -22,7 +22,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_appmesh_mesh" "govuk" {
-  name = "govuk-${local.workspace}"
+  name = "govuk-${var.govuk_environment}-${local.workspace}"
 
   spec {
     egress_filter {

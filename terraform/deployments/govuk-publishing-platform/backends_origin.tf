@@ -91,7 +91,7 @@ resource "aws_wafv2_web_acl" "backends_origin_cloudfront_web_acl" {
 module "backends_origin" {
   source = "../../modules/origin"
 
-  name                = "backends"
+  name                = "backends-${var.govuk_environment}-${local.workspace}"
   vpc_id              = local.vpc_id
   aws_region          = data.aws_region.current.name
   assume_role_arn     = var.assume_role_arn
@@ -122,7 +122,7 @@ module "backends_origin" {
 ## Publisher
 
 resource "aws_lb_target_group" "publisher" {
-  name        = "publisher-${local.workspace}"
+  name        = "publisher-${var.govuk_environment}-${local.workspace}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
@@ -174,7 +174,7 @@ resource "aws_route53_record" "publisher" {
 ## Signon
 
 resource "aws_lb_target_group" "signon" {
-  name        = "signon-${local.workspace}"
+  name        = "signon-${var.govuk_environment}-${local.workspace}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = local.vpc_id

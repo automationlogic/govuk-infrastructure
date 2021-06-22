@@ -32,7 +32,7 @@ module "router" {
 
   registry     = var.registry
   image_name   = "router"
-  service_name = "router"
+  service_name = "router-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names = flatten([
     local.router_defaults.backend_services,
     module.static.virtual_service_name,
@@ -106,7 +106,7 @@ module "draft_router" {
   source       = "../../modules/app"
   registry     = var.registry
   image_name   = "router"
-  service_name = "draft-router"
+  service_name = "draft-router-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names = flatten([
     local.router_defaults.backend_services,
     module.draft_static.virtual_service_name,

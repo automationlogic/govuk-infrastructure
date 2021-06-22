@@ -22,7 +22,7 @@ module "static" {
 
   registry                         = var.registry
   image_name                       = "static"
-  service_name                     = "static"
+  service_name                     = "static-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = [] # Static doesn't use any other services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id
@@ -64,7 +64,7 @@ module "draft_static" {
 
   registry                         = var.registry
   image_name                       = "static"
-  service_name                     = "draft-static"
+  service_name                     = "draft-static-${var.govuk_environment}-${local.workspace}"
   backend_virtual_service_names    = [] # Static doesn't use any other services
   mesh_name                        = aws_appmesh_mesh.govuk.id
   service_discovery_namespace_id   = aws_service_discovery_private_dns_namespace.govuk_publishing_platform.id
