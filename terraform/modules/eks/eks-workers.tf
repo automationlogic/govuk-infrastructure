@@ -37,10 +37,11 @@ resource "aws_eks_node_group" "k8s-node-group" {
   node_group_name = var.cluster_name
   node_role_arn   = aws_iam_role.k8s-iam-role-node.arn
   subnet_ids      = var.subnet_ids
-
+  #instance_types  = ["m3.medium", "m3.medium"]
+  instance_types  = ["c5.2xlarge", "c5.2xlarge"]
   scaling_config {
-    desired_size = 1
-    max_size     = 1
+    desired_size = 2
+    max_size     = 2
     min_size     = 1
   }
 
