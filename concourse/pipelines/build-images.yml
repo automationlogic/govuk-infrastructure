@@ -40,6 +40,7 @@ resources:
       <<: *git-repo-source
       uri: git@github.com:alphagov/govuk-infrastructure.git
       paths: [ docker/infra-concourse-task, Gemfile*, .ruby-version, concourse, lib, Rakefile ]
+      branch: bilbof/build-infra-concourse-task
 
   - <<: *git-repo
     name: publisher-repo
@@ -90,7 +91,7 @@ resources:
     source:
       <<: *git-repo-source
       uri: git@github.com:alphagov/govuk-infrastructure.git
-      branch: main
+      branch: bilbof/build-infra-concourse-task
 
   - &docker-image
     name: smokey-image
