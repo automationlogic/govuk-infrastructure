@@ -9,6 +9,6 @@ outputs:
 - name: image
 params:
   CONTEXT: git-repo
-  DOCKERFILE: git-repo/2.7.2/Dockerfile
+  DOCKERFILE: git-repo/2.7.2/buster/Dockerfile
 run:
   path: build
