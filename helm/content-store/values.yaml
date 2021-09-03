@@ -10,17 +10,21 @@ service:
   annotations: {}
   type: NodePort
   port: 80
-  targetPort: 80
-
 
 replicaCount: 1
 
-image:
+appImage:
   repository: 172025368201.dkr.ecr.eu-west-1.amazonaws.com/content-store
   pullPolicy: IfNotPresent
   tag: latest
 
-containerPort: 80
+nginxImage:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: stable
+
+appPort: 3000
+nginxPort: 80
 
 resources:
   limits:
@@ -29,7 +33,6 @@ resources:
   requests:
   # cpu:
   # memory: 1024M
-
 
 appDefaultTtl: "1800"
 appGovukAppDomain: # see template for how default value is computed
