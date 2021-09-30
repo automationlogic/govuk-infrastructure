@@ -61,10 +61,6 @@ resource "aws_iam_user" "github_ecr_user" {
   name = "github_ecr_user"
 }
 
-resource "aws_iam_access_key" "github_ecr_user" {
-  user = aws_iam_user.github_ecr_user.name
-}
-
 resource "aws_iam_role" "push_image_to_ecr_role" {
   name = "push_image_to_ecr_role"
   assume_role_policy = jsonencode({
