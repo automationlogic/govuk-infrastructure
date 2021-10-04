@@ -12,6 +12,13 @@ resources:
       private_key: | # pragma: allowlist secret
         ((govukci_private_key))
 
+  - <<: *git-repo
+    name: govuk-infrastructure
+    source:
+      <<: *git-repo-source
+      uri: git@github.com:alphagov/govuk-infrastructure.git
+      branch: main
+
   - &docker-image
     name: frontend-image
     type: registry-image
