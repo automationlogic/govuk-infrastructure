@@ -37,8 +37,8 @@ export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
 set -x
 export TF_IN_AUTOMATION=1
 cd "${DEPLOYMENT_PATH}"
-terraform init -input=false -backend-config "${ENVIRONMENT}.backend"
-terraform state list
-terraform show
-terraform state show eks
-terraform "$tf_action" "$var_file_args" $auto_approve "$@"
+curl -LO https://dl.k8s.io/release/v1.22.3/bin/linux/amd64/kubectl
+chmod +x kubectl
+aws eks update-kubeconfig --name govuk
+./kubectl get cm aws-auth -n kube-system -oyaml
+./kubectl delete cm aws-auth -n kube-system
