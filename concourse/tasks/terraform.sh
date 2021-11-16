@@ -1,29 +1,25 @@
 #!/bin/sh
 #
-# terraform.sh runs Terraform plan or apply from the directory
-# $DEPLOYMENT_PATH, acting as the IAM role specified in $ASSUME_ROLE_ARN.
+# terraform.sh runs Terraform from the directory $DEPLOYMENT_PATH, acting as
+# the IAM role specified in $ASSUME_ROLE_ARN. All args are passed through to
+# Terraform (plus some extra ones for convenience).
 
-set -eu
-
-usage() {
-    echo "usage: $0 plan|apply|destroy [additional_terraform_args ...]" >&2
-    exit 64  # EX_USAGE
-}
+set -u
 
 auto_approve=""
+var_file_args="-var-file ../variables/${ENVIRONMENT}/common.tfvars \
+  -var-file ../variables/common.tfvars"
 tf_action="${1:-}" && shift
 case $tf_action in
-    plan )
-        ;;
     apply | destroy )
-        auto_approve="-auto-approve"  # Necessary even with -input=false.
+        auto_approve="-input=false -auto-approve"
         ;;
-    * )
-        usage
+    plan | import )
+        auto_approve="-input=false"
         ;;
+    state )
+        var_file_args=""
 esac
-
-export TF_IN_AUTOMATION=1
 
 # Assume role once here, rather than configuring the same thing (via different
 # options) in each Terraform provider in every root module.
@@ -38,11 +34,11 @@ AWS_SECRET_ACCESS_KEY="$(echo "$creds" | jq -r .SecretAccessKey)"
 AWS_SESSION_TOKEN="$(echo "$creds" | jq -r .SessionToken)"
 export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
 
+set -x
+export TF_IN_AUTOMATION=1
 cd "${DEPLOYMENT_PATH}"
-
 terraform init -input=false -backend-config "${ENVIRONMENT}.backend"
-
-terraform "$tf_action" -input=false \
-  -var-file "../variables/${ENVIRONMENT}/common.tfvars" \
-  -var-file "../variables/common.tfvars" \
-  $auto_approve "$@"
+terraform state list
+terraform show
+terraform state show eks
+terraform "$tf_action" "$var_file_args" $auto_approve "$@"
