@@ -1,0 +1,48 @@
+---
+resource_types:
+  - name: registry-image
+    type: docker-image
+    source:
+      repository: govuk/registry-image
+      tag: f0.0.1
+      username: ((docker_hub_username))
+      password: ((docker_hub_authtoken))
+
+resources:
+  - icon: github
+    name: govuk-infrastructure
+    source:
+      branch: sengi/rescue
+      uri: https://github.com/alphagov/govuk-infrastructure
+    type: git
+
+jobs:
+  - name: terraform-ad-hoc-command
+    plan:
+    - get: govuk-infrastructure
+      trigger: true
+    - task: terraform-apply
+      config:
+        inputs:
+        - name: govuk-infrastructure
+        params:
+          ASSUME_ROLE_ARN: ((concourse_deployer_role_arn))
+          AWS_REGION: ((aws_region))
+          DEPLOYMENT_PATH: govuk-infrastructure/terraform/deployments/cluster-infrastructure
+          ENVIRONMENT: ((govuk_environment))
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: govuk-terraform
+            aws_region: eu-west-1
+            aws_ecr_registry_id: ((ecr_registry_id))
+            aws_ec2_credentials: true
+            variant: release
+            aws_role_arns:
+              - ((concourse_deployer_role_arn))
+              - ((concourse_ecr_role_arn))
+        run:
+          path: govuk-infrastructure/concourse/tasks/terraform.sh
+          #args: ["import", "eks.kubernetes_config_map.aws_auth", "kube-system/aws-auth"]
+          args: ["state", "list"]
