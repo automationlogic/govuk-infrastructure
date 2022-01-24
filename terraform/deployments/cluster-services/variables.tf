@@ -17,3 +17,8 @@ variable "govuk_environment" {
   type        = string
   description = "Acceptable values are test, integration, staging, production"
 }
+
+variable "powerusers_namespaces" {
+  type        = list(string)
+  description = "List of namespaces where powerusers have admin access"
+}
