@@ -11,7 +11,7 @@ variable "cluster_log_retention_in_days" {
 variable "cluster_name" {
   type        = string
   description = "Name for the EKS cluster."
-  default     = "govuk"
+  default     = "bill"
 }
 
 variable "cluster_version" {

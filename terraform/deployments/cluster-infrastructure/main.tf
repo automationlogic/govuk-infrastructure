@@ -20,7 +20,7 @@ terraform {
 
 locals {
   cluster_services_namespace = "cluster-services"
-  secrets_prefix             = "govuk"
+  secrets_prefix             = "bill"
 
   # module.eks.cluster_oidc_issuer_url is a full URL, e.g.
   # "https://oidc.eks.eu-west-1.amazonaws.com/id/B4378A8EBD334FEEFDF3BCB6D0E612C6"
@@ -32,6 +32,7 @@ locals {
   default_tags = {
     cluster              = var.cluster_name
     project              = "replatforming"
+    workspace            = "bill"
     repository           = "govuk-infrastructure"
     terraform_deployment = basename(abspath(path.root))
   }
