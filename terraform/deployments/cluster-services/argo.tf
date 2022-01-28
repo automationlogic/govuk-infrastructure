@@ -19,10 +19,10 @@ resource "helm_release" "argo_cd" {
       ingress = {
         enabled = true
         annotations = {
-          "alb.ingress.kubernetes.io/group.name"         = "argo"
+          "alb.ingress.kubernetes.io/group.name"         = "argocd-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/scheme"             = "internet-facing"
           "alb.ingress.kubernetes.io/target-type"        = "ip"
-          "alb.ingress.kubernetes.io/load-balancer-name" = "argo"
+          "alb.ingress.kubernetes.io/load-balancer-name" = "argocd-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/listen-ports"       = jsonencode([{ "HTTP" : 80 }, { "HTTPS" : 443 }])
           "alb.ingress.kubernetes.io/ssl-redirect"       = "443"
         }
@@ -40,10 +40,10 @@ resource "helm_release" "argo_cd" {
         enabled  = true
         isAWSALB = true
         annotations = {
-          "alb.ingress.kubernetes.io/group.name"         = "argo"
+          "alb.ingress.kubernetes.io/group.name"         = "argocd-grpc-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/scheme"             = "internet-facing"
           "alb.ingress.kubernetes.io/target-type"        = "ip"
-          "alb.ingress.kubernetes.io/load-balancer-name" = "argo"
+          "alb.ingress.kubernetes.io/load-balancer-name" = "argocd-grpc-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/listen-ports"       = jsonencode([{ "HTTP" : 80 }, { "HTTPS" : 443 }])
           "alb.ingress.kubernetes.io/ssl-redirect"       = "443"
         }
@@ -134,10 +134,10 @@ resource "helm_release" "argo_workflows" {
       ingress = {
         enabled = true
         annotations = {
-          "alb.ingress.kubernetes.io/group.name"         = "argo-workflows"
+          "alb.ingress.kubernetes.io/group.name"         = "argo-workflows-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/scheme"             = "internet-facing"
           "alb.ingress.kubernetes.io/target-type"        = "ip"
-          "alb.ingress.kubernetes.io/load-balancer-name" = "argo-workflows"
+          "alb.ingress.kubernetes.io/load-balancer-name" = "argo-workflows-${data.terraform_remote_state.cluster_infrastructure.outputs.cluster_id}"
           "alb.ingress.kubernetes.io/listen-ports"       = jsonencode([{ "HTTP" : 80 }, { "HTTPS" : 443 }])
           "alb.ingress.kubernetes.io/ssl-redirect"       = "443"
         }
