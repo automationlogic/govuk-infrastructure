@@ -93,9 +93,17 @@ resource "helm_release" "argo_notifications" {
   })]
 }
 
+resource "kubernetes_namespace_v1" "apps" {
+  for_each = toset(var.argo_workflows_namespaces)
+  metadata {
+    name = each.value
+  }
+}
+
 resource "helm_release" "argo_workflows" {
   chart      = "argo-workflows"
   name       = "argo-workflows"
+  depends_on = [kubernetes_namespace_v1.apps]
   namespace  = local.services_ns
   repository = "https://argoproj.github.io/argo-helm"
   version    = "0.9.5" # TODO: Dependabot or equivalent so this doesn't get neglected.
